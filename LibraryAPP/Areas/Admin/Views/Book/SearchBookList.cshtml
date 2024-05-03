@@ -1,0 +1,157 @@
+﻿@model IEnumerable<Book>
+
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">Kitap Listesi Arama Sonuçları (@Model?.Count())</h3>  
+                        <div class="card-tools">
+                            <form asp-action="SearchBookList" class="input-group input-group-sm" style="width:150px;">
+                                <input type="text" name="q" class="form-control float-right" placeholder="Ara" value="@TempData["searchText"]" required />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ISBN No</th>
+                                    <th>Kitap Adı</th>
+                                    <th>Yazar Adı</th>
+                                    <th>Sayfa Sayısı</th>
+                                    <th>Yayınlanma Tarihi</th>
+                                    <th>Kütüphanede Mi?</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item?.IsbnNo</td>
+                                        <td>@item?.KitapAdi</td>
+                                        <td>@item?.YazarAdi</td>
+                                        <td>@item?.SayfaSayisi</td>
+                                        <td>@item?.YayinlanmaYili?.ToString("d")</td>
+                                        <td>
+                                            @if (item.KutuphanedeMi)
+                                            {
+                                                <span>Evet</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Hayır</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" asp-action="BookDetail" asp-route-id="@item.Id">
+                                                <i class="fa fa-book"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#Update-@item.Id">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <div class="modal fade" id="Update-@item.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content bg-success">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Kitap Bilgilerini Güncelle
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <form asp-action="UpdateBook" method="post">
+                                                            <input type="hidden" name="Id" asp-for="@item.Id" />
+                                                            <input type="hidden" name="KutuphanedeMi" asp-for="@item.KutuphanedeMi" />
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label>ISBN Numarası*</label>
+                                                                    <input name="IsbnNo" asp-for="@item.IsbnNo" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Kitap Adı*</label>
+                                                                    <input name="KitapAdi" asp-for="@item.KitapAdi" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Yazar Adı*</label>
+                                                                    <input name="YazarAdi" asp-for="@item.YazarAdi" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Sayfa Sayısı*</label>
+                                                                    <input type="number" name="SayfaSayisi" asp-for="@item.SayfaSayisi" class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Yayınlanma Yılı*</label>
+                                                                    <input type="date" name="YayinlanmaYili" asp-for="@item.YayinlanmaYili" class="form-control" required>
+                                                                </div>
+                                                                @* <div class="form-group">
+                                                            <label>Kütüphanede mi?*</label>
+                                                            <input type="checkbox" name="KutuphanedeMi" asp-for="@item.KutuphanedeMi" class="form-control">
+                                                            </div> *@
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-dark">Güncelle</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-@item.Id">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                            <div class="modal fade" id="delete-@item.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content bg-danger">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Kitabı Sil
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>ISBN Numarası:</strong> @item?.IsbnNo</p>
+                                                            <p><strong>Kitap Adı:</strong> @item?.KitapAdi</p>
+                                                            <p><strong>Yazar Adı:</strong> @item?.YazarAdi</p>
+                                                            <p><strong>Sayfa Sayısı:</strong> @item?.SayfaSayisi</p>
+                                                            <p><strong>Yayınlanma Yılı:</strong> @item?.YayinlanmaYili?.ToString("d")</p>
+                                                            <p>
+                                                                <strong>Kütüphanede mi?:</strong>  @if (item.KutuphanedeMi)
+                                                                {
+                                                                    <span>Evet</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>Hayır</span>
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a asp-action="DeleteBook" asp-route-id="@item?.Id" class="btn btn-dark">Sil</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <a class="btn btn-warning btn-sm float-right" asp-action="BookList">Kitap Listesi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

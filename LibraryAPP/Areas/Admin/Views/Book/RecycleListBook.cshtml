@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Book>
+
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-secondary card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">Kitap Listesi Geri Dönüşüm Kutusu</h3>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ISBN No</th>
+                                    <th>Kitap Adı</th>
+                                    <th>Yazar Adı</th>
+                                    <th>Sayfa Sayısı</th>
+                                    <th>Yayınlanma Tarihi</th>
+                                    <th>Boşta Mı?</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item?.IsbnNo</td>
+                                        <td>@item?.KitapAdi</td>
+                                        <td>@item?.YazarAdi</td>
+                                        <td>@item?.SayfaSayisi</td>
+                                        <td>@item?.YayinlanmaYili?.ToString("d")</td>
+                                        <td>
+                                            @if (item.KutuphanedeMi)
+                                            {
+                                                <span>Evet</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Hayır</span>
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#recycle-@item?.Id">
+                                                <i class="fas fa-recycle"></i>
+                                            </button>
+                                            <div class="modal fade" id="recycle-@item?.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content bg-success">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Kitabı Geri Yükle
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>ISBN Numarası:</strong> @item?.IsbnNo</p>
+                                                            <p><strong>Kitap Adı:</strong> @item?.KitapAdi</p>
+                                                            <p><strong>Yazar Adı:</strong> @item?.YazarAdi</p>
+                                                            <p><strong>Sayfa Sayısı:</strong> @item?.SayfaSayisi</p>
+                                                            <p><strong>Yayınlanma Yılı:</strong> @item?.YayinlanmaYili?.ToString("d")</p>
+                                                            <p>
+                                                                <strong>Kütüphanede mi?:</strong>  
+                                                                @if (item.KutuphanedeMi)
+                                                                {
+                                                                    <span>Evet</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>Hayır</span>
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a asp-action="RecycleBook" asp-route-id="@item?.Id" class="btn btn-dark">Geri Yükle</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <a class="btn btn-warning btn-sm float-right" asp-action="BookList">Kitap Listesi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 

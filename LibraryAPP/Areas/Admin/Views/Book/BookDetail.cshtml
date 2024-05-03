@@ -1,0 +1,37 @@
+﻿@model Book
+
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">Kitap Bilgileri</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Eklenme Tarihi:</strong> @Model?.CreateDate?.ToString("g")</p>
+                        <p><strong>ISBN Numarası:</strong> @Model?.IsbnNo</p>
+                        <p><strong>Kitap Adı:</strong> @Model?.KitapAdi</p>
+                        <p><strong>Yazar Adı:</strong> @Model?.YazarAdi</p>
+                        <p><strong>Sayfa Sayısı:</strong> @Model?.SayfaSayisi</p>
+                        <p><strong>Yayınlanma Yılı:</strong> @Model?.YayinlanmaYili?.ToString("d")</p>
+                        <p>
+                            <strong>Kütüphanede mi?:</strong>  
+                            @if (Model.KutuphanedeMi)
+                            {
+                                <span>Evet</span>
+                            }
+                            else
+                            {
+                                <span>Hayır</span>
+                            }
+                        </p>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <a class="btn btn-warning btn-sm float-right" asp-action="BookList">Kitap Listesi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

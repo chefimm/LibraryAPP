@@ -1,0 +1,92 @@
+﻿@model IEnumerable<BookReport>
+
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-secondary card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">Kayıt Listesi Geri Dönüşüm Kutusu</h3>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Alım Tarihi</th>
+                                    <th>Teslim Tarihi</th>
+                                    <th>Geçen Süre</th>
+                                    <th>Ad Soyad</th>
+                                    <th>T.C. No</th>
+                                    <th>Telefon No</th>
+                                    <th>Alınan Kitap</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item?.AlimTarihi?.ToString("g")</td>
+                                        <td>@item?.TeslimTarihi?.ToString("g")</td>
+                                        <td>
+                                            @if (item.TeslimTarihi == null)
+                                            {
+
+                                                var timeDifference = DateTime.Now - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+
+                                                @formattedTimeDifference
+                                            }
+                                            else
+                                            {
+
+                                                var timeDifference = item.TeslimTarihi - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+
+                                                @formattedTimeDifference
+                                            }
+                                        </td>
+                                        <td>@item?.AlanKisiAdSoyad</td>
+                                        <td>@item?.AlanKisiTcNo</td>
+                                        <td>@item?.AlanKisiTelNo</td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#recycle-@item?.Id">
+                                                <i class="fas fa-recycle"></i>
+                                            </button>
+                                            <div class="modal fade" id="recycle-@item?.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content bg-success">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Kaydı Geri Yükle
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>Alım Tarihi:</strong> @item?.AlimTarihi?.ToString("g")</p>
+                                                            <p><strong>Ad Soyad:</strong> @item?.AlanKisiAdSoyad</p>
+                                                            <p><strong>Alınan Kitap:</strong> <a asp-controller="Book" asp-action="BookDetail" asp-route-id="@item?.Book?.Id" class="btn btn-info btn-xs">@item?.Book?.KitapAdi</a></p>
+                                                            <p><strong>Teslim Tarihi:</strong> @item?.TeslimTarihi?.ToString("g") </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a asp-action="RecycleBookReport" asp-route-id="@item?.Id" class="btn btn-dark">Geri Yükle</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <a class="btn btn-warning btn-sm float-right" asp-action="BookListReport">Kayıt Listesi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

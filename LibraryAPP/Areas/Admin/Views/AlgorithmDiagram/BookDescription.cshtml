@@ -1,0 +1,86 @@
+﻿
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">BookController</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <strong>BookList Metodu:</strong>
+                            Kitap listesini almak için _context.Book kullanılır.
+                            Silinmemiş kitapları seçmek için .Where(x => x.IsDeleted == false) kullanılır.
+                            Kitapları en son eklenen en üstte olacak şekilde sıralamak için .OrderByDescending(x => x.Id) kullanılır.
+                            Veritabanına sorgu gönderilmemesi için .AsNoTracking() kullanılır.
+                            Kitap listesi view'e döndürülür.
+                        </p>
+                        <p>
+                            <strong>BookDetail Metodu:</strong> Belirli bir kitabın detaylarını almak için _context.Book kullanılır.
+                            Silinmemiş ve belirli bir ID'ye sahip kitabı seçmek için .Where(x => x.IsDeleted == false && x.Id == id) kullanılır.
+                            İlk kitap bilgisini almak için .FirstOrDefaultAsync() kullanılır.
+                            Kitap detayları view'e döndürülür.
+                        </p>
+                        
+
+                        
+                        <p>
+                            <strong>SearchBookList Metodu:</strong>
+                            Arama sorgusu (q) boş değilse:
+                            Kitap adı, ISBN numarası veya yazar adı içeren kitapları bulmak için .Where kullanılır.
+                            Veritabanına sorgu gönderilmemesi için .AsNoTracking() kullanılır.
+                            Arama sonuçları en son eklenen en üstte olacak şekilde sıralanır.
+                            Arama sonuçları view'e döndürülür.
+                            Arama metni, TempData aracılığıyla saklanır.
+                            Arama sorgusu boşsa, tüm kitap listesine yönlendirilir.
+                        </p>
+                        
+
+                        
+                        <p>
+                            <strong>AddBook Metodu:</strong>
+                            Yeni bir kitap eklemek için _context.AddAsync(p) kullanılır.
+                            Veritabanına değişiklikleri kaydetmek için _context.SaveChangesAsync() kullanılır.
+                            Başarı mesajı eklendikten sonra kitap listesine yönlendirilir.
+                        </p>
+                        
+
+                        
+                        <p>
+                            <strong>UpdateBook Metodu:</strong> Var olan bir kitabın bilgilerini güncellemek için _context.Update(p) kullanılır.
+                            Veritabanına değişiklikleri kaydetmek için _context.SaveChangesAsync() kullanılır.
+                            Başarı mesajı eklendikten sonra kitap listesine yönlendirilir.
+                        </p>
+                        
+
+                        
+                        <p>
+                            <strong>DeleteBook Metodu:</strong> Belirli bir kitabı silmek için _context.Update(data) ve _context.SaveChangesAsync() kullanılır.
+                            Başarı mesajı eklendikten sonra kitap listesine yönlendirilir.
+                        </p>
+                        
+
+                        
+                        <p>
+                            <strong>RecycleListBook Metodu:</strong> Geri dönüşüm kutusundaki silinmiş kitapları listelemek için _context.Book kullanılır.
+                            Silinmiş kitapları seçmek için .Where(x => x.IsDeleted == true) kullanılır.
+                            En son silinen en üstte olacak şekilde sıralanır ve view'e döndürülür.
+                        </p>
+                        
+
+                       
+                        <p>
+                            <strong>RecycleBook Metodu:</strong>
+                            Geri dönüşüm kutusundan bir kitabı geri yüklemek için _context.Update(data) ve _context.SaveChangesAsync() kullanılır.
+                            Başarı mesajı eklendikten sonra geri dönüşüm kutusu listesine yönlendirilir.
+                        </p>
+                        
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,56 @@
+﻿
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">BookReportController</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <strong>BookReportList  Metodu:</strong>
+                            Kitap kayıt listesini görüntülemek için BookReportList adında bir HTTP GET metodu bulunur.
+                            Veritabanından mevcut kayıt çeker, bu verileri view'e gönderir.
+                        </p>
+                        <p>
+                            <strong>SearchBookReportList Metodu:</strong>Belirli bir kriterle kayıt aramak için SearchBookReportList adında bir HTTP GET metodu bulunur.
+                            Arama sorgusuna göre kayıtları filtreler ve view'e gönderir.
+                        </p>
+                        <p>
+                            <strong>AddBookReport Metodu:</strong>
+                            Yeni bir kayıt eklemek için AddBookReport adında bir HTTP GET metodu bulunur.
+                            Formdan gelen bilgilerle yeni bir BookReport oluşturur, veritabanına ekler ve ilgili kitabın durumunu günceller. Sonrasında kullanıcıyı kayıt listesine yönlendirir.
+                        </p>
+                        <p>
+                            <strong>UpdateBookReport  Metodu:</strong>
+                            Mevcut bir kaydın teslim tarihini güncellemek için UpdateBookReport adında bir HTTP GET metodu bulunur.
+                            Teslim tarihini kontrol eder, uygunsa kaydı günceller ve ilgili kaydın durumunu günceller. Sonrasında kullanıcıyı kayıt listesine yönlendirir.
+                        </p>
+                        <p>
+                            <strong>DeleteBookReport Metodu:</strong>
+                            Bir kaydı silmek için DeleteBookReport adında bir HTTP GET metodu bulunur.
+                            Kaydı siler ve ilgili kitabın durumunu günceller. Sonrasında kullanıcıyı kitap raporu listesine yönlendirir.
+                        </p>
+                        <p>
+                            <strong>RecycleListBookReport  Metodu:</strong>
+                            Silinmiş kayıtları görüntülemek için RecycleListBookReport adında bir HTTP GET metodu bulunur.
+                            Silinmiş kayıtları çeker ve view'e gönderir.
+                        </p>
+                        <p>
+                            <strong>RecycleBookReport   Metodu:</strong>
+                            Silinmiş bir kaydı geri yüklemek için RecycleBookReport adında bir HTTP GET metodu bulunur.
+                            Silinmiş kaydın durumunu günceller ve ilgili kitabın durumunu günceller. Sonrasında kullanıcıyı silinmiş kayıt listesine yönlendirir.
+                        </p> 
+                        <p>
+                            <strong>Geçen Süre Hesaplaması:</strong>
+                           [var timeDifference = DateTime.Now - item.AlimTarihi;
+                            var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);]
+                            TimeSpan nesnesinden gün, saat ve dakika cinsinden ayrılmış bir dize oluşturmak için kullanıyorum.
+                        </p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<BookReport>
+
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline mt-5">
+                    <div class="card-header">
+                        <h3 class="card-title">Kayıt Listesi Arama Sonuçları (@Model?.Count())</h3>
+                        <div class="card-tools">
+                            <form asp-action="SearchBookReportList" class="input-group input-group-sm" style="width:150px;">
+                                <input type="text" name="q" class="form-control float-right" placeholder="Ara" value="@TempData["searchText"]" required />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Alım Tarihi</th>
+                                    <th>Teslim Tarihi</th>
+                                    <th>Geçen Süre</th>
+                                    <th>Ad Soyad</th>
+                                    <th>T.C. No</th>
+                                    <th>Telefon No</th>
+                                    <th>Alınan Kitap</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item?.AlimTarihi?.ToString("g")</td>
+                                        <td>@item?.TeslimTarihi?.ToString("g")</td>
+                                        <td>
+                                            @if (item.TeslimTarihi == null)
+                                            {
+
+                                                var timeDifference = DateTime.Now - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+
+                                                @formattedTimeDifference
+                                            }
+                                            else
+                                            {
+
+                                                var timeDifference = item.TeslimTarihi - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+
+                                                @formattedTimeDifference
+                                            }
+                                        </td>
+                                        <td>@item?.AlanKisiAdSoyad</td>
+                                        <td>@item?.AlanKisiTcNo</td>
+                                        <td>@item?.AlanKisiTelNo</td>
+                                        <td><a asp-controller="Book" asp-action="BookDetail" asp-route-id="@item?.Book?.Id" class="btn btn-info btn-xs">@item?.Book?.KitapAdi</a></td>
+                                        <td>
+                                            @item?.TeslimTarihi?.ToString("g")
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#Update-@item.Id">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <div class="modal fade" id="Update-@item.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content bg-success">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Bilgileri Güncelle
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <form asp-action="UpdateBookReport" method="post">
+                                                            <input type="hidden" name="Id" asp-for="@item.Id" />
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label>Teslim Tarihi*</label>
+                                                                    <input type="datetime-local" name="TeslimTarihi" asp-for="@item.TeslimTarihi" class="form-control" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-dark">Güncelle</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-@item.Id">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                            <div class="modal fade" id="delete-@item.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content bg-danger">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">
+                                                                Kaydı Sil
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>Alım Tarihi:</strong> @item?.AlimTarihi?.ToString("g")</p>
+                                                            <p><strong>Ad Soyad:</strong> @item?.AlanKisiAdSoyad</p>
+                                                            <p><strong>T.C. No:</strong> @item?.AlanKisiTcNo</p>
+                                                            <p><strong>Telefon Numarası</strong> @item?.AlanKisiTelNo</p>
+                                                            <p><strong>Alınan Kitap:</strong> <a asp-controller="Book" asp-action="BookDetail" asp-route-id="@item?.Book?.Id" class="btn btn-info btn-xs">@item?.Book?.KitapAdi</a></p>
+                                                            <p><strong>Teslim Tarihi:</strong> @item?.TeslimTarihi?.ToString("g") </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a asp-action="DeleteBookReport" asp-route-id="@item?.Id" class="btn btn-dark">Sil</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer clearfix">
+                        <a class="btn btn-warning btn-sm float-right" asp-action="BookReportList">Kayıt Listesi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

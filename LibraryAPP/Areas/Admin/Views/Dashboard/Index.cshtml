@@ -1,0 +1,129 @@
+﻿
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><a asp-controller="Book" asp-action="BookList"><i class="fas fa-book"></i></a></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Kitap Sayısı</span>
+                        <span class="info-box-number">@ViewBag.KitapSayisi </span>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix hidden-md-up"></div>
+            <div class="col-12 col-sm-6 col-md-6">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><a asp-controller="BookReport" asp-action="BookReportList"><i class="fas fa-receipt"></i></a></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Kayıt Sayısı</span>
+                        <span class="info-box-number">@ViewBag.KayitSayisi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content">
+    <div class="content-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Teslim Bekleyen Kitaplar</h3>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Alım Tarihi</th>
+                                    <th>Geçen Süre</th>
+                                    <th>Ad Soyad</th>
+                                    <th>T.C. No</th>
+                                    <th>Telefon No</th>
+                                    <th>Alınan Kitap</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.TeslimBekleyen)
+                                {
+                                    <tr>
+                                        <td>@item?.AlimTarihi?.ToString("g")</td>
+                                        <td>
+                                            @{
+                                                var timeDifference = DateTime.Now - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+                                            }
+                                            @formattedTimeDifference
+                                        </td>
+                                        <td>@item?.AlanKisiAdSoyad</td>
+                                        <td>@item?.AlanKisiTcNo</td>
+                                        <td>@item?.AlanKisiTelNo</td>
+                                        <td><a asp-controller="Book" asp-action="BookDetail" asp-route-id="@item?.Book?.Id" class="btn btn-info btn-xs">@item?.Book?.KitapAdi</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-info card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Oluşturulan Son Kayıtlar</h3>
+                    </div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Alım Tarihi</th>
+                                    <th>Teslim Tarihi</th>
+                                    <th>Geçen Süre</th>
+                                    <th>Ad Soyad</th>
+                                    <th>T.C. No</th>
+                                    <th>Telefon No</th>
+                                    <th>Alınan Kitap</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.SonKayitlar)
+                                {
+                                    <tr>
+                                        <td>@item?.AlimTarihi?.ToString("g")</td>
+                                        <td>@item?.TeslimTarihi?.ToString("g")</td>
+
+                                        <td>
+                                            @if (item.TeslimTarihi == null)
+                                            {
+
+                                                var timeDifference = DateTime.Now - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+
+                                                @formattedTimeDifference
+                                            }
+                                            else
+                                            {
+
+                                                var timeDifference = item.TeslimTarihi - item.AlimTarihi;
+                                                var formattedTimeDifference = string.Format("{0:%d} gün, {0:%h} saat, {0:%m} dakika", timeDifference);
+
+                                                @formattedTimeDifference
+                                            }
+                                        </td>
+                                        <td>@item?.AlanKisiAdSoyad</td>
+                                        <td>@item?.AlanKisiTcNo</td>
+                                        <td>@item?.AlanKisiTelNo</td>
+                                        <td><a asp-controller="Book" asp-action="BookDetail" asp-route-id="@item?.Book?.Id" class="btn btn-info btn-xs">@item?.Book?.KitapAdi</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

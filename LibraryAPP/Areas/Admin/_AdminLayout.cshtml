@@ -1,0 +1,143 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kütüphane Test</title>
+    <link rel="icon" href="~/icons8-open-book-color-32.png" type="image/x-icon" />
+    <link rel="stylesheet" href="~/AdminLTE-3.1.0/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.1.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <a asp-controller="Dashboard" asp-action="Index" class="brand-link text-center">
+                <h2 class="brand-text font-weight-light">
+                    <span class="brand-text font-weight-light">Kütüphane</span>
+                </h2>
+            </a>
+            <div class="sidebar">
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a asp-controller="Dashboard" asp-action="Index" class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString()=="Dashboard"?"active":"")">
+                                <p>
+                                    Raporlar
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Book" asp-action="BookList" class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString()=="Book"?"active":"")">
+                                <p>
+                                    Kitap Listesi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="BookReport" asp-action="BookReportList" class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString()=="BookReport"?"active":"")">
+                                <p>
+                                    Kayıt Listesi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Usedtechnologies" asp-action="Index" class="nav-link  @(ViewContext.RouteData.Values["Controller"].ToString()=="Usedtechnologies"?"active":"")">
+                                <p>
+                                    Kullanılan Teknolojiler
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="DatabaseSchema" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString()=="DatabaseSchema"?"active":"")">
+                                <p>
+                                    Veritabanı Şeması
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString()=="AlgorithmDiagram"?"menu-open":"")">
+                            <a href="#" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString()=="AlgorithmDiagram"?"active":ViewContext.RouteData.Values["Controller"].ToString()=="AlgorithmDiagram"?"active":"")">
+                                <p>
+                                    Algoritma Yazımı
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-controller="AlgorithmDiagram" asp-action="BookDescription" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString()=="BookDescription"?"active":"")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>BookController</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a asp-controller="AlgorithmDiagram" asp-action="BookReportDescription" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString()=="BookReportDescription"?"active":"")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>BookReportController</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+    <script src="~/AdminLTE-3.1.0/dist/js/adminlte.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/jquery/jquery.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/jszip/jszip.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    @await Component.InvokeAsync("NToastNotify")
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": false, "lengthChange": false, "autoWidth": true,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
